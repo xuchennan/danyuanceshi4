@@ -1,34 +1,32 @@
 package org.apache.commons.lang3;
 
-import java.util.regex.Pattern;
+import org.junit.Test;
 
-public class TestReplaceAll {
-    public static void main(String[] args) {
-        Pattern pattern = Pattern.compile("world");
-        String text = "Hello, world!";
+import static org.junit.Assert.assertEquals;
 
-        // 正常使用 replaceAll 方法
-        String replacedText = replaceAll(text, pattern, "Java");
-        System.out.println("Replaced Text: " + replacedText);
+public class RegExUtilsExampleTest {
 
-        // 使用带缺陷的 replaceAll 方法
-        String defectiveReplacedText = replaceAllDefective(text, pattern, "Java");
-        System.out.println("Defective Replaced Text: " + defectiveReplacedText);
+    @Test
+    public void testReplaceAll() {
+        String inputString = "The quick brown fox jumps over the lazy dog. The dog is very lazy.";
+        String result = RegExUtils.replaceAll(inputString, "lazy", "clever");
+        String expectedOutput = "The quick brown fox jumps over the clever dog. The dog is very clever.";
+        assertEquals(expectedOutput, result);
     }
 
-    public static String replaceAll(final String text, final Pattern regex, final String replacement) {
-        if (text == null || regex == null || replacement == null) {
-            return text;
-        }
-        return regex.matcher(text).replaceAll(replacement);
+    @Test
+    public void testRemovePattern() {
+        String inputString = "The quick brown fox jumps over the lazy dog. The dog is very lazy.";
+        String result = RegExUtils.removePattern(inputString, "the");
+        String expectedOutput = "The quick brown fox jumps over  lazy dog. The dog is very lazy.";
+        assertEquals(expectedOutput, result);
     }
 
-    // 带缺陷的 replaceAll 方法
-    public static String replaceAllDefective(final String text, final Pattern regex, final String replacement) {
-        if (text == null || regex == null || replacement == null) {
-            return text;
-        }
-        // 注入的缺陷：直接返回原始文本
-        return text;
+    @Test
+    public void testReplaceFirst() {
+        String inputString = "The quick brown fox jumps over the lazy dog. The dog is very lazy.";
+        String result = RegExUtils.replaceFirst(inputString, "dog", "cat");
+        String expectedOutput = "The quick brown fox jumps over the lazy cat. The dog is very lazy.";
+        assertEquals(expectedOutput, result);
     }
 }
